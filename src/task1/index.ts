@@ -3,6 +3,14 @@ type FunctionWithAnyArguments = (...args: any[]) => any;
 function defaultArguments(func: FunctionWithAnyArguments, defaults: { [key: string]: any }) : FunctionWithAnyArguments {
     const stringFunction = func.toString();
 
+    function stripExistingDefault(arg: string) {
+        const positionOfEquals = arg.indexOf('=');
+        if (positionOfEquals > -1) {
+            return arg.substring(0, positionOfEquals - 1);
+        }
+        return arg.trim();
+    }
+
     function getOriginalArguments() {
         const argumentRegex = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
         const args = stringFunction.match(argumentRegex);
@@ -12,7 +20,8 @@ function defaultArguments(func: FunctionWithAnyArguments, defaults: { [key: stri
 
     function replaceWithDefaults(originalArguments: string[]) {
         return originalArguments.map((arg) => {
-            if (defaults[arg.trim()]) return `${arg} = ${defaults[arg.trim()]}`;
+            const strippedArg = stripExistingDefault(arg);
+            if (defaults[strippedArg]) return `${strippedArg} = ${defaults[strippedArg]}`;
             return arg;
         });
     }
