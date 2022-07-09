@@ -21,4 +21,13 @@ describe('defaultArguments', function () {
         assert.equal(add3(), 5);
         assert.equal(add3(undefined, 10), 12);
     });
+
+    it('should ignore an argument that isn\'t an argument of the function;', function () {
+        function add(a: number, b: number) {
+            return a + b;
+        }
+        const add4 = defaultArguments(add, { c: 3 });
+        assert.equal(add4(10), NaN);
+        assert.equal(add4(10, 10), 20);
+    });
 });
