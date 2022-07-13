@@ -1,7 +1,7 @@
 import assert from 'assert';
 import findMeetingSlot, { Schedule } from './';
 
-describe.only('findAppointmentSlot', function () {
+describe('findAppointmentSlot', function () {
     it('should find the earliest appointment slot', function () {
         const schedules : Schedule[] = [
             [['09:00', '11:30'], ['13:30', '15:00'], ['16:00', '17:30'], ['17:45', '19:00']], // Schedule 1
